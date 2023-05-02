@@ -21,6 +21,7 @@ namespace Player
         [SerializeField] private AudioClip bullet;
         [SerializeField] private AudioClip emptyAmmo;
         [SerializeField] private AudioClip gunReload;
+        [SerializeField] private AudioClip gunZoom;
         [SerializeField] private bool reloadFinished;
         [SerializeField] private Image crosshair;
         
@@ -81,6 +82,7 @@ namespace Player
             // if no bullets left in gun
             if (bullets <= 0 && reloadFinished)
             {
+                audio.volume = 0.4f;
                 audio.clip = emptyAmmo;
                 audio.Play();
                 reloadFinished = false;
@@ -98,6 +100,7 @@ namespace Player
             // instantiate bullet prefab
             var bullet = Instantiate(bulletPrefab, bulletPoint.transform.position, transform.rotation);
 
+            audio.volume = 0.4f;
             audio.clip = this.bullet;
             audio.Play();
 
@@ -115,6 +118,9 @@ namespace Player
         /// </summary>
         private void Zoom()
         {
+            audio.volume = 0.2f;
+            audio.clip = gunZoom;
+            audio.Play();
             anim.SetBool("Zoom", true);
             StartCoroutine(LerpView(1f, zoomView));
             crosshair.enabled = true;
@@ -139,6 +145,7 @@ namespace Player
             float timeElapsed = 0.0f;
             Debug.Log("Setting bool");
             anim.SetBool("Reload", true);
+            audio.volume = 0.4f;
             audio.clip = gunReload;
             audio.Play();
             

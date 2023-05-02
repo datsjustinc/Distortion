@@ -18,8 +18,8 @@ namespace Player
         [SerializeField] private float sprintSpeed;
         [SerializeField] private float drag;
 
-        [Space] [Header("Movement Audio")] [SerializeField]
-        private AudioSource audio;
+        [Space] [Header("Movement Audio")] 
+        [SerializeField] private AudioSource audio;
 
         [SerializeField] private AudioClip walk;
         [SerializeField] private AudioClip sprint;
@@ -135,6 +135,12 @@ namespace Player
             set => healthBar = value;
         }
 
+        public bool IsHit
+        {
+            get => isHit;
+            set => isHit = value;
+        }
+
         /// <summary>
         /// This function is called at start of game.
         /// </summary>
@@ -220,7 +226,7 @@ namespace Player
             {
                 _rigidbody.AddForce(_moveDirection.normalized * (moveSpeed * 10f * multiplier), ForceMode.Force);
             }
-
+            
             // add force over time to player movement in opposite direction as bounce back
             if (isHit)
             {
@@ -239,6 +245,7 @@ namespace Player
         {
             var timeElapsed = 0.0f;
             
+            // record health bar colors
             var startAmount = healthBar.fillAmount;
             var endAmount = healthBar.fillAmount - points;
             var defaultColor = new Color(0f, 0.5848637f, 0.6509804f);
@@ -250,6 +257,7 @@ namespace Player
             {
                 _rigidbody.AddForce(-_moveDirection.normalized * (strength * Time.deltaTime), ForceMode.Impulse);
                 
+                // lerp and deduct health bar
                 var t = timeElapsed / duration;
                 healthBar.fillAmount = Mathf.Lerp(startAmount, endAmount, t);
                 healthBar.color = Color.Lerp(flashColor, defaultColor, t);
@@ -321,7 +329,7 @@ namespace Player
             else if (grounded)
             {
                 state = Movement.Walking;
-                audio.volume = 0.4f;
+                audio.volume = 0.3f;
                 audio.clip = walk;
                 moveSpeed = walkSpeed;
             }
