@@ -10,20 +10,23 @@ namespace Player
     public class Bullet : MonoBehaviour
     {
         [SerializeField] private ParticleSystem impact;
-        [SerializeField] private float damage = 10f;
+        [SerializeField] private float damage = 1f;
         
+        /// <summary>
+        /// This function checks for object collision.
+        /// </summary>
+        /// <param name="collision">the object collided with</param>
         private void OnCollisionEnter(Collision collision)
         {
             impact.Play();
 
             // check if collision with enemy
-            if (collision.gameObject.CompareTag("Enemy")) ;
+            if (collision.gameObject.CompareTag("Enemy"))
             {
-                // change bullets parent to enemy object
                 transform.parent = collision.transform;
                 
                 // enemy takes damage
-                collision.gameObject.GetComponent<Enemy>().TakeDamage(damage);
+                collision.transform.gameObject.GetComponent<Enemy>().TakeDamage(damage);
             }
         }
     }

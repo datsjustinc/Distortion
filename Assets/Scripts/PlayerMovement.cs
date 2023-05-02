@@ -181,8 +181,8 @@ namespace Player
         /// </summary>
         private void KeyboardInput()
         {
-            horizontalInput = UnityEngine.Input.GetAxisRaw("Horizontal");
-            verticalInput = UnityEngine.Input.GetAxisRaw("Vertical");
+            horizontalInput = Input.GetAxisRaw("Horizontal");
+            verticalInput = Input.GetAxisRaw("Vertical");
 
             // jump trigger condition
             if (Input.GetKey(jumpKey) && canJump && grounded)
@@ -230,7 +230,7 @@ namespace Player
             // add force over time to player movement in opposite direction as bounce back
             if (isHit)
             {
-                StartCoroutine(BounceBack(0.5f, 50f, 0.10f));
+                StartCoroutine(BounceBack(0.5f, 30f, 0.10f));
             }
         }
 
