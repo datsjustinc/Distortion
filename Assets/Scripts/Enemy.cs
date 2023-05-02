@@ -34,6 +34,7 @@ namespace AI
 
         // getters and setters
         public float MaxHealth { get => maxHealth; set => maxHealth = value; }
+        public float Health { get => health; set => health = value; }
         public NavMeshAgent Agent { get => agent; set => agent = value; }
         
         /// <summary>
@@ -80,7 +81,7 @@ namespace AI
                 
                 // prevents player from triggering enemy death animation repeatedly
                 gameObject.GetComponent<Collider>().enabled = false;
-                Invoke(nameof(Destroy), 4f);
+                Invoke(nameof(Destroy), 3f);
             }
 
             // otherwise enemy just takes damage 

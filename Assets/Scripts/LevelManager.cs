@@ -41,13 +41,14 @@ public class LevelManager : MonoBehaviour
     private void SpawnEnemies()
     {
         // choose a random spawn point
-        int spawnIndex = Random.Range(0, spawnPoints.Count);
-        Transform spawnPoint = spawnPoints[spawnIndex];
+        var spawnIndex = Random.Range(0, spawnPoints.Count);
+        var spawnPoint = spawnPoints[spawnIndex];
         
         // spawn enemy prefabs and adjust stats to make them more agile and tanky
         var enemy = Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
-        var enemyScript = enemy.gameObject.GetComponent<Enemy>();
+        var enemyScript = enemy.GetComponent<Enemy>();
         enemyScript.MaxHealth += maxHealthIncrease;
+        enemyScript.Health = enemyScript.MaxHealth;
         enemyScript.Agent.speed += speedIncrease;
         enemyScript.Agent.acceleration += accelerationIncrease;
 

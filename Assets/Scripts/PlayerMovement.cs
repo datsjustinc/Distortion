@@ -271,6 +271,36 @@ namespace Player
         }
 
         /// <summary>
+        /// This function heals player when colliding with certain objects.
+        /// </summary>
+        /// <param name="duration">how long to lerp the heal</param>
+        /// <param name="points">how many points to heal</param>
+        /// <returns></returns>
+        private IEnumerator Heal(float duration, float points)
+        {
+            var timeElapsed = 0.0f;
+            
+            // record health bar colors
+            var startAmount = healthBar.fillAmount;
+            var endAmount = healthBar.fillAmount - points;
+            var defaultColor = new Color(0f, 0.5848637f, 0.6509804f);
+            var flashColor = new Color(0, 0.6509804f, 0.1700584f);
+            healthBar.color = flashColor;
+
+            // time duration loop
+            while (timeElapsed < duration)
+            {
+                // lerp and deduct health bar
+                var t = timeElapsed / duration;
+                healthBar.fillAmount = Mathf.Lerp(startAmount, endAmount, t);
+                healthBar.color = Color.Lerp(flashColor, defaultColor, t);
+                
+                timeElapsed += Time.deltaTime;
+                yield return null;
+            }
+        }
+        
+        /// <summary>
         /// This functions limits player speed manually.
         /// </summary>
         private void SpeedControl()
@@ -354,6 +384,12 @@ namespace Player
             {
                 Debug.Log("Collision Enemy");
                 isHit = true;
+            }
+
+            if (collision.gameObject.CompareTag("Heal"))
+            {
+                StartCoroutine(Heal(1f, -0.15f));
+                Destroy(collision.gameObject);
             }
         }
 

@@ -508,6 +508,7 @@ MonoBehaviour:
   health: 0
   anim: {fileID: 6678386648091881953}
   healthbar: {fileID: 1031992789}
+  agent: {fileID: 736210713}
   audio: {fileID: 736210716}
   death: {fileID: 8300000, guid: 86c33e61d87114b4a90d63b841c34bc0, type: 3}
   damage: {fileID: 8300000, guid: 0098d10308b5c654e803d8031d42a4b8, type: 3}
