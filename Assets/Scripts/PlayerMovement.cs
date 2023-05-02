@@ -12,6 +12,11 @@ namespace Player
         [SerializeField] private float walkSpeed;
         [SerializeField] private float sprintSpeed;
         [SerializeField] private float drag;
+
+        [Space] [Header("Movement Audio")] 
+        [SerializeField] private AudioSource audio;
+        [SerializeField] private AudioClip walk;
+        [SerializeField] private AudioClip sprint;
         
         [Space]
 
@@ -119,7 +124,17 @@ namespace Player
         {
             // calculate move direction and always walk in direction looking
             _moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
+
+            if (_moveDirection == Vector3.zero)
+            {
+                audio.Stop();
+            }
             
+            if (_moveDirection != Vector3.zero && !audio.isPlaying)
+            {
+                audio.Play();
+            }
+
             // add force to player movement in calculated direction from before if not in air
             if (grounded)
             {
@@ -129,10 +144,6 @@ namespace Player
             {
                 _rigidbody.AddForce(_moveDirection.normalized * (moveSpeed * 10f * multiplier), ForceMode.Force);
             }
-   
-            
-          
-            
         }
 
         /// <summary>
@@ -181,13 +192,21 @@ namespace Player
             // if sprint key is pressed
             if (grounded && Input.GetKey(sprintKey))
             {
+                audio.clip = sprint;
                 moveSpeed = sprintSpeed;
             }
             
             // if not sprinting, then walking
             else if (grounded)
             {
+                audio.clip = walk;
                 moveSpeed = walkSpeed;
+            }
+
+            // if in air
+            else
+            {
+                audio.clip = null;
             }
         }
     }
