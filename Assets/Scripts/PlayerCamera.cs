@@ -3,14 +3,17 @@ using UnityEngine;
 namespace Player
 {
     /// <summary>
-    /// This class implements player movement physics.
+    /// This class implements player camera.
     /// </summary>
     public class PlayerCamera : MonoBehaviour
     {
         // mouse sensitivity
+        [Header("Mouse Sensitivity")]
         [SerializeField] private float sensX;
         [SerializeField] private float sensY;
 
+        [Space]
+        
         // player orientation stores facing direction
         public Transform orientation;
         
