@@ -17,6 +17,7 @@ namespace Player
         [SerializeField] private AudioSource audio;
         [SerializeField] private AudioClip walk;
         [SerializeField] private AudioClip sprint;
+        [SerializeField] private AudioClip jump;
         
         [Space]
 
@@ -125,11 +126,13 @@ namespace Player
             // calculate move direction and always walk in direction looking
             _moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
+            // if play is not moving stop movement sound loop
             if (_moveDirection == Vector3.zero)
             {
                 audio.Stop();
             }
             
+            // if player is moving and movement sound isn't already playing
             if (_moveDirection != Vector3.zero && !audio.isPlaying)
             {
                 audio.Play();
@@ -191,7 +194,7 @@ namespace Player
         {
             // if sprint key is pressed
             if (grounded && Input.GetKey(sprintKey))
-            {
+            {audio.volume = 0.4f;
                 audio.clip = sprint;
                 moveSpeed = sprintSpeed;
             }
@@ -199,14 +202,16 @@ namespace Player
             // if not sprinting, then walking
             else if (grounded)
             {
+                audio.volume = 0.4f;
                 audio.clip = walk;
                 moveSpeed = walkSpeed;
             }
 
             // if in air
-            else
+            else if (Input.GetKey(jumpKey))
             {
-                audio.clip = null;
+                audio.volume = 1f;
+                audio.clip = jump;
             }
         }
     }
