@@ -8,7 +8,10 @@ using AI;
 public class LevelManager : MonoBehaviour
 {
     [SerializeField] private GameObject enemyPrefab;
+    [SerializeField] private GameObject healPrefab;
     [SerializeField] private List<Transform> spawnPoints;
+    [SerializeField] private Transform enemies;
+    [SerializeField] private Transform heals;
     
     [Space]
     
@@ -40,17 +43,23 @@ public class LevelManager : MonoBehaviour
     /// </summary>
     private void SpawnEnemies()
     {
-        // choose a random spawn point
-        var spawnIndex = Random.Range(0, spawnPoints.Count);
-        var spawnPoint = spawnPoints[spawnIndex];
+        // choose a random spawn point for enemies
+        var spawnIndex1 = Random.Range(0, spawnPoints.Count);
+        var spawnPoint1 = spawnPoints[spawnIndex1];
+
+        // choose a random spawn point for healing orbs
+        var spawnIndex2 = Random.Range(0, spawnPoints.Count);
+        var spawnPoint2 = spawnPoints[spawnIndex2];
         
         // spawn enemy prefabs and adjust stats to make them more agile and tanky
-        var enemy = Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
+        var enemy = Instantiate(enemyPrefab, spawnPoint1.position, spawnPoint1.rotation, enemies);
         var enemyScript = enemy.GetComponent<Enemy>();
         enemyScript.MaxHealth += maxHealthIncrease;
         enemyScript.Health = enemyScript.MaxHealth;
         enemyScript.Agent.speed += speedIncrease;
         enemyScript.Agent.acceleration += accelerationIncrease;
+
+        var heal = Instantiate(healPrefab, spawnPoint2.position, spawnPoint2.rotation, heals);
 
         // Decrease spawn interval and increase enemy stats
         currentInterval = Mathf.Clamp(currentInterval - intervalDecrease, fastestInterval, slowestInterval);
