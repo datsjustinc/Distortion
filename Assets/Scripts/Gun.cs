@@ -1,4 +1,5 @@
 using UnityEngine;
+using Player;
 
 namespace Player
 {
@@ -28,7 +29,7 @@ namespace Player
         /// <summary>
         /// This function is called every frame.
         /// </summary>
-        private void FixedUpdate()
+        private void Update()
         {
             if (Input.GetMouseButtonDown(0))
             {

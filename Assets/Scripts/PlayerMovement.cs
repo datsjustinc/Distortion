@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using Player;
 
 namespace Player
 {
@@ -223,45 +224,42 @@ namespace Player
             // add force over time to player movement in opposite direction as bounce back
             if (isHit)
             {
-                IsDamaged();
-                StartCoroutine(BounceBack(0.5f));
+                StartCoroutine(BounceBack(0.5f, 50f, 0.10f));
             }
         }
 
         /// <summary>
-        /// This function bounces player back when colliding with enemy.
+        /// The function bounces player back when colliding with enemy.
         /// </summary>
-        /// <param name="duration">time it takes to bounce back</param>
-        /// <returns>null value</returns>
-        private IEnumerator BounceBack(float duration)
+        /// <param name="duration">how long bounce back lasts</param>
+        /// <param name="strength">how strong bounce back force is</param>
+        /// <param name="points">how many points to subtract from health</param>
+        /// <returns></returns>
+        private IEnumerator BounceBack(float duration, float strength, float points)
         {
             float timeElapsed = 0.0f;
             
+            var startAmount = healthBar.fillAmount;
+            var endAmount = healthBar.fillAmount - points;
+            var defaultColor = new Color(0f, 0.5848637f, 0.6509804f);
+            var flashColor = new Color(0.6509804f, 0.02553217f, 0f);
+            healthBar.color = flashColor;
+
             // time duration loop
             while (timeElapsed < duration)
             {
-                _rigidbody.AddForce(-_moveDirection.normalized * (50f * Time.deltaTime), ForceMode.Impulse);
+                _rigidbody.AddForce(-_moveDirection.normalized * (strength * Time.deltaTime), ForceMode.Impulse);
+                
+                float t = timeElapsed / duration;
+                healthBar.fillAmount = Mathf.Lerp(startAmount, endAmount, t);
+                healthBar.color = Color.Lerp(flashColor, defaultColor, t);
+                
                 timeElapsed += Time.deltaTime;
                 yield return null;
             }
-
+            
             // in case OnTriggerExit doesn't function when player is back up against a wall
-            isHit = false;
-        }
-
-        /// <summary>
-        /// This function keeps updates player health bar when damaged.
-        /// </summary>
-        private void IsDamaged()
-        {
-            if (healthBar.fillAmount % 10 == 0 && healthBar.fillAmount > 0)
-            {
-                healthBar.fillAmount -= 10f;
-            }
-            else
-            {
-                healthBar.fillAmount = 0f;
-            }
+            //isHit = false;
         }
 
         /// <summary>
@@ -305,6 +303,9 @@ namespace Player
             canJump = true;
         }
 
+        /// <summary>
+        /// This function sets the movement state values of player.
+        /// </summary>
         private void State()
         {
             // if sprint key is pressed
@@ -334,6 +335,10 @@ namespace Player
             }
         }
 
+        /// <summary>
+        /// This function detects player collision.
+        /// </summary>
+        /// <param name="collision">object collided with</param>
         private void OnCollisionEnter(Collision collision)
         {
             // check if collision with enemy
@@ -344,12 +349,28 @@ namespace Player
             }
         }
 
+        /// <summary>
+        /// This function detects player leaving collision.
+        /// </summary>
+        /// <param name="collision">object leaving collision</param>
         private void OnCollisionExit(Collision collision)
         {
+            // check if leaving enemy collision box
             if (collision.gameObject.CompareTag("Enemy"))
             {
                 isHit = false;
             }
+        }
+
+        /// <summary>
+        /// This function allows other scripts to call BounceBack.
+        /// </summary>
+        /// <param name="duration">how long bounce back lasts</param>
+        /// <param name="strength">how strong bounce back is</param>
+        /// <param name="points">how many points to remove from player health</param>
+        public void CallBounce(float duration, float strength, float points)
+        {
+            StartCoroutine(BounceBack(duration, strength, points));
         }
     }
 }

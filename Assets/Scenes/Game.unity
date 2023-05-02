@@ -151,7 +151,7 @@ RectTransform:
   m_GameObject: {fileID: 35359904}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.72531, y: 0.4, z: 1}
+  m_LocalScale: {x: 0.8707094, y: 0.4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 885991921}
@@ -160,7 +160,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 335, y: 423}
+  m_AnchoredPosition: {x: 213, y: 423}
   m_SizeDelta: {x: 1442.5089, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &35359906
@@ -720,7 +720,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 7.48, y: 7.4799995, z: 7.4800005}
-  m_ConstrainProportionsScale: 1
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 35359905}
   m_RootOrder: 0
@@ -1051,7 +1051,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1885660173}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.0014, y: 0.0657, z: 0.6602}
+  m_LocalPosition: {x: -0.016, y: 0.0657, z: 0.915}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1166,18 +1166,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1922244660
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1922244655}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93a0d7a42020bc54c88614381f8247c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2002771912
 GameObject:
   m_ObjectHideFlags: 0
@@ -1511,6 +1499,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 271928570520746696, guid: a17d525eb4160854784c483391168085,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 271928570520746703, guid: a17d525eb4160854784c483391168085,
         type: 3}
       propertyPath: m_Enabled
@@ -1593,6 +1586,11 @@ PrefabInstance:
       objectReference: {fileID: 8300000, guid: d48efb4963ed97e4b8a30e745ca1f019, type: 3}
     - target: {fileID: 271928571852018499, guid: a17d525eb4160854784c483391168085,
         type: 3}
+      propertyPath: healthBar
+      value: 
+      objectReference: {fileID: 885991922}
+    - target: {fileID: 271928571852018499, guid: a17d525eb4160854784c483391168085,
+        type: 3}
       propertyPath: moveSpeed
       value: 3
       objectReference: {fileID: 0}
@@ -1604,6 +1602,11 @@ PrefabInstance:
     - target: {fileID: 271928571852018525, guid: a17d525eb4160854784c483391168085,
         type: 3}
       propertyPath: m_Name
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 271928571852018525, guid: a17d525eb4160854784c483391168085,
+        type: 3}
+      propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -1,4 +1,5 @@
 using UnityEngine;
+using Player;
 
 /// <summary>
 /// This class manages the game music.
