@@ -151,6 +151,7 @@ namespace Player
                 yield return null;
             }
             
+            // reset reload gun variables for another round
             reloadFinished = true;
             anim.SetBool("Reload", false);
             bullets = 9;
@@ -169,7 +170,6 @@ namespace Player
             // time duration loop
             while (timeElapsed < duration)
             {
-
                 var t = timeElapsed / duration;
                 playerCam.fieldOfView = Mathf.Lerp(playerCam.fieldOfView, targetView, t);
                 timeElapsed += Time.deltaTime;

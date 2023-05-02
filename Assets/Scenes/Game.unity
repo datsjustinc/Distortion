@@ -20,7 +20,7 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.8679245, g: 0.8679245, b: 0.8679245, a: 1}
+  m_AmbientSkyColor: {r: 0, g: 0, b: 0, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -97,7 +97,8 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: 4148dfb07ad302540985190de9e282fb,
+    type: 2}
   m_LightingSettings: {fileID: 4890085278179872738, guid: c3a4dc300bd142d4c8b40a79a3af6878,
     type: 2}
 --- !u!196 &4
@@ -1052,7 +1053,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1885660173}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.007, y: 0.158, z: 0.917}
+  m_LocalPosition: {x: 0.007, y: 0.145, z: 0.917}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1474,10 +1475,10 @@ MonoBehaviour:
   bulletSpeed: 100
   bullets: 0
   audio: {fileID: 2116122638}
-  canShoot: 0
   bullet: {fileID: 8300000, guid: f87e63ec24d77b1438c4a9bb1db30d64, type: 3}
   emptyAmmo: {fileID: 8300000, guid: 78c37276966899c43844eccb4a97a5b3, type: 3}
   gunReload: {fileID: 8300000, guid: 11b9bbb56202f7c4fa93c528bfc74ec3, type: 3}
+  reloadFinished: 0
   crosshair: {fileID: 2061272040}
   playerCam: {fileID: 330585545}
   anim: {fileID: 2116122641}
