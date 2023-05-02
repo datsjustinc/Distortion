@@ -64,6 +64,10 @@ namespace Player
         public Movement state;
         [SerializeField] private bool isHit;
         [SerializeField] private Image healthBar;
+
+        [SerializeField] private GameObject EndScreen;
+        [SerializeField] private AudioClip lose;
+        [SerializeField] private GameObject levelManager;
         
 
         public enum Movement
@@ -149,6 +153,7 @@ namespace Player
             _rigidbody = GetComponent<Rigidbody>();
             _rigidbody.freezeRotation = true;
             canJump = true;
+            EndScreen.SetActive(false);
         }
 
         /// <summary>
@@ -156,6 +161,16 @@ namespace Player
         /// </summary>
         private void Update()
         {
+            if (healthBar.fillAmount <= 0)
+            {
+                audio.clip = lose;
+                audio.Play();
+                levelManager.SetActive(false);
+                _rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+                EndScreen.SetActive(true);
+            }
+            
+            
             KeyboardInput();
             SpeedControl();
             State();
