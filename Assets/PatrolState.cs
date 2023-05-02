@@ -2,9 +2,14 @@ using System.Collections.Generic;
 using UnityEngine.AI;
 using UnityEngine;
 
+/// <summary>
+/// This state script allows AI to patrol to random path points set in the map.
+/// </summary>
 public class PatrolState : StateMachineBehaviour
 {
     private float timer;
+    [SerializeField] private Transform player;
+    [SerializeField] private float chaseRange = 8;
     
     // list to store "path points" for AI navigation
     [SerializeField] private List<Transform> pathPoints = new List<Transform>();
@@ -13,9 +18,14 @@ public class PatrolState : StateMachineBehaviour
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        // find player and access transform for position;
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+        
         // grab navmesh component on object
         agent = animator.GetComponent<NavMeshAgent>();
+        agent.speed = 1.5f;
         timer = 0;
+        
         // find parent object holding all the path points 
         var points = GameObject.FindGameObjectWithTag("PathPoints");
         
@@ -44,6 +54,15 @@ public class PatrolState : StateMachineBehaviour
         if (timer > 10)
         {
             animator.SetBool("isPatrolling", false);
+        }
+        
+        // each frame calculate distance of AI from player
+        var distance = Vector3.Distance(player.position, animator.transform.position);
+
+        // if player within range, then AI chases
+        if (distance < chaseRange)
+        {
+            animator.SetBool("isChasing", true);
         }
     }
 

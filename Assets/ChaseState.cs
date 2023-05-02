@@ -1,47 +1,34 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 /// <summary>
-/// This state script allows AI to remain ide on the map.
+/// This state script allows AI to detect player within a certain range and chase them.
 /// </summary>
-public class IdleState : StateMachineBehaviour
+public class ChaseState : StateMachineBehaviour
 {
-    private float timer;
+    private NavMeshAgent agent;
     [SerializeField] private Transform player;
-    [SerializeField] private float chaseRange = 8;
     
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        timer = 0;
-        
-        // find player and access transform for position;
+        agent = animator.GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
+        agent.speed = 3.5f;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        // after 5 seconds change to patrol state
-        timer += Time.deltaTime;
-        if (timer > 5)
-        {
-            animator.SetBool("isPatrolling", true);
-            
-            // each frame calculate distance of AI from player
-            var distance = Vector3.Distance(player.position, animator.transform.position);
-
-            // if player within range, then AI chases
-            if (distance < chaseRange)
-            {
-                animator.SetBool("isChasing", true);
-            }
-        }
+        // move enemy towards player
+        agent.SetDestination(player.position);
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        
+        // stops AI when exiting chase state
+        agent.SetDestination(animator.transform.position);
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
