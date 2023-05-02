@@ -237,7 +237,7 @@ namespace Player
         /// <returns></returns>
         private IEnumerator BounceBack(float duration, float strength, float points)
         {
-            float timeElapsed = 0.0f;
+            var timeElapsed = 0.0f;
             
             var startAmount = healthBar.fillAmount;
             var endAmount = healthBar.fillAmount - points;
@@ -250,7 +250,7 @@ namespace Player
             {
                 _rigidbody.AddForce(-_moveDirection.normalized * (strength * Time.deltaTime), ForceMode.Impulse);
                 
-                float t = timeElapsed / duration;
+                var t = timeElapsed / duration;
                 healthBar.fillAmount = Mathf.Lerp(startAmount, endAmount, t);
                 healthBar.color = Color.Lerp(flashColor, defaultColor, t);
                 
