@@ -210,7 +210,7 @@ namespace Player
             // if in air
             else if (Input.GetKey(jumpKey))
             {
-                audio.volume = 1f;
+                audio.volume = 0.4f;
                 audio.clip = jump;
             }
         }
