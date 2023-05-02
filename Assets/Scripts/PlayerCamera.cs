@@ -32,7 +32,7 @@ namespace Player
         /// <summary>
         /// This function is called at start of game.
         /// </summary>
-        private void Start()
+        private void Awake()
         {
             // makes sure cursor is in center of screen and invisible
             Cursor.lockState = CursorLockMode.Locked;
