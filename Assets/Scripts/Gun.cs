@@ -16,10 +16,12 @@ namespace Player
         [SerializeField] private GameObject bulletPrefab;
         [SerializeField] private GameObject bulletPoint;
         [SerializeField] private float bulletSpeed;
-        [SerializeField] private bool canShoot;
         [SerializeField] private int bullets;
         [SerializeField] private AudioSource audio;
         [SerializeField] private AudioClip bullet;
+        [SerializeField] private AudioClip emptyAmmo;
+        [SerializeField] private AudioClip gunReload;
+        [SerializeField] private bool reloadFinished;
         [SerializeField] private Image crosshair;
         
         [Space]
@@ -29,7 +31,11 @@ namespace Player
         [SerializeField] private Animator anim;
         [SerializeField] private float zoomView;
         [SerializeField] private float defaultView;
-        [SerializeField] private float zoomSpeed;
+
+        [Space]
+        
+        [Header("Gun Ammo")]
+        [SerializeField] private Image gunAmmo;
         
 
         /// <summary>
@@ -41,8 +47,8 @@ namespace Player
             bulletSpeed = 500f;
             playerCam = Camera.main;
             crosshair.enabled = false;
-
             bullets = 9;
+            reloadFinished = true;
         }
         
         /// <summary>
@@ -50,12 +56,12 @@ namespace Player
         /// </summary>
         private void Update()
         {
-            if (Input.GetMouseButtonDown(0) && bullets > 0)
+            if (Input.GetMouseButtonDown(0))
             {
                 Shoot();
             }
 
-            if (Input.GetMouseButtonDown(1))
+            if (Input.GetMouseButtonDown(1) && reloadFinished)
             {
                 Zoom();
          
@@ -72,19 +78,36 @@ namespace Player
         /// </summary>
         private void Shoot()
         {
+            // if no bullets left in gun
+            if (bullets <= 0 && reloadFinished)
+            {
+                audio.clip = emptyAmmo;
+                audio.Play();
+                reloadFinished = false;
+                UnZoom();
+                StartCoroutine(Reload());
+                return;
+            }
+
+            // all ammo needs to be reload before being able to target (buffer time)
+            if (!reloadFinished)
+            {
+                return;
+            }
+            
             // instantiate bullet prefab
             var bullet = Instantiate(bulletPrefab, bulletPoint.transform.position, transform.rotation);
-            
+
             audio.clip = this.bullet;
             audio.Play();
-            
+
             // add force to bullet
             bullet.GetComponent<Rigidbody>().AddForce(transform.forward * bulletSpeed, ForceMode.Force);
             bullets--;
+            gunAmmo.fillAmount -= (1.0f / 9.0f);
 
             // destroy bullet instance after short delay
             Destroy(bullet, 0.5f);
-
         }
 
         /// <summary>
@@ -108,6 +131,37 @@ namespace Player
             StartCoroutine(LerpView(0.3f, defaultView));
         }
 
+        /// <summary>
+        /// This function reloads player gun.
+        /// </summary>
+        private IEnumerator Reload()
+        {
+            float timeElapsed = 0.0f;
+            Debug.Log("Setting bool");
+            anim.SetBool("Reload", true);
+            audio.clip = gunReload;
+            audio.Play();
+            
+            // time duration loop
+            while (timeElapsed < 2f)
+            {
+                var t = timeElapsed / 2f;
+                gunAmmo.fillAmount = Mathf.Lerp(gunAmmo.fillAmount, 1f, t);
+                timeElapsed += Time.deltaTime;
+                yield return null;
+            }
+            
+            reloadFinished = true;
+            anim.SetBool("Reload", false);
+            bullets = 9;
+        }
+
+        /// <summary>
+        /// This function transitions camera field of view on gun.
+        /// </summary>
+        /// <param name="duration">how long the transition lasts</param>
+        /// <param name="targetView">target field of view value to lerp to</param>
+        /// <returns></returns>
         private IEnumerator LerpView(float duration, float targetView)
         {
             float timeElapsed = 0.0f;

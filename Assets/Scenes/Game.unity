@@ -1179,7 +1179,7 @@ GameObject:
   - component: {fileID: 2002771915}
   - component: {fileID: 2002771914}
   m_Layer: 5
-  m_Name: Background
+  m_Name: GunAmmo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1472,15 +1472,18 @@ MonoBehaviour:
     type: 3}
   bulletPoint: {fileID: 1885660173}
   bulletSpeed: 100
-  canShoot: 0
+  bullets: 0
   audio: {fileID: 2116122638}
+  canShoot: 0
   bullet: {fileID: 8300000, guid: f87e63ec24d77b1438c4a9bb1db30d64, type: 3}
+  emptyAmmo: {fileID: 8300000, guid: 78c37276966899c43844eccb4a97a5b3, type: 3}
+  gunReload: {fileID: 8300000, guid: 11b9bbb56202f7c4fa93c528bfc74ec3, type: 3}
   crosshair: {fileID: 2061272040}
   playerCam: {fileID: 330585545}
   anim: {fileID: 2116122641}
   zoomView: 30
   defaultView: 60
-  zoomSpeed: 1000
+  gunAmmo: {fileID: 622508306}
 --- !u!4 &2116122637 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 449102, guid: 3c81b162a1af44348b8994f7040514d4,
@@ -1498,7 +1501,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 0.4
   m_Pitch: 1
   Loop: 0
