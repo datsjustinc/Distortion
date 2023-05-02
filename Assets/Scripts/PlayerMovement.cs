@@ -9,6 +9,8 @@ namespace Player
 
         // player movement speed and facing direction
         [SerializeField] private float moveSpeed;
+        [SerializeField] private float walkSpeed;
+        [SerializeField] private float sprintSpeed;
         [SerializeField] private float drag;
         
         [Space]
@@ -24,6 +26,7 @@ namespace Player
         
         [Header("Keys")] 
         [SerializeField] private KeyCode jumpKey = KeyCode.Space;
+        [SerializeField] private KeyCode sprintKey = KeyCode.LeftShift;
 
         [Space]
         
@@ -43,9 +46,13 @@ namespace Player
 
         private Vector3 _moveDirection;
         private Rigidbody _rigidbody;
-        
+
         // getters and setters
         public float MoveSpeed { get => moveSpeed; set => moveSpeed = value; }
+        public float Drag { get => drag; set => drag = value; }
+        public float JumpForce { get => jumpForce; set => jumpForce = value; }
+        public float Cooldown { get => cooldown; set => cooldown = value; }
+        public float Multiplier { get => multiplier; set => multiplier = value; }
         public float DragSpeed { get => drag; set => drag = value; }
         public Transform Orientation { get => orientation; set => orientation = value; }
         public float HorizontalInput { get => horizontalInput; set => horizontalInput = value; }
@@ -68,6 +75,7 @@ namespace Player
         {
             KeyboardInput();
             SpeedControl();
+            State();
             
             // ground check shoots raycast from current position
             // down (ray length is a bit more than half of player's height)
@@ -166,6 +174,21 @@ namespace Player
         private void ResetJump()
         {
             canJump = true;
+        }
+
+        private void State()
+        {
+            // if sprint key is pressed
+            if (grounded && Input.GetKey(sprintKey))
+            {
+                moveSpeed = sprintSpeed;
+            }
+            
+            // if not sprinting, then walking
+            else if (grounded)
+            {
+                moveSpeed = walkSpeed;
+            }
         }
     }
 }
