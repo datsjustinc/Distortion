@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using Player;
+using UnityEngine.UI;
 
 namespace Player
 {
@@ -16,8 +17,10 @@ namespace Player
         [SerializeField] private GameObject bulletPoint;
         [SerializeField] private float bulletSpeed;
         [SerializeField] private bool canShoot;
+        [SerializeField] private int bullets;
         [SerializeField] private AudioSource audio;
         [SerializeField] private AudioClip bullet;
+        [SerializeField] private Image crosshair;
         
         [Space]
         
@@ -37,6 +40,9 @@ namespace Player
             // initialize starting bullet speed
             bulletSpeed = 500f;
             playerCam = Camera.main;
+            crosshair.enabled = false;
+
+            bullets = 9;
         }
         
         /// <summary>
@@ -44,7 +50,7 @@ namespace Player
         /// </summary>
         private void Update()
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && bullets > 0)
             {
                 Shoot();
             }
@@ -74,7 +80,8 @@ namespace Player
             
             // add force to bullet
             bullet.GetComponent<Rigidbody>().AddForce(transform.forward * bulletSpeed, ForceMode.Force);
-            
+            bullets--;
+
             // destroy bullet instance after short delay
             Destroy(bullet, 0.5f);
 
@@ -87,6 +94,7 @@ namespace Player
         {
             anim.SetBool("Zoom", true);
             StartCoroutine(LerpView(1f, zoomView));
+            crosshair.enabled = true;
 
         }
 
@@ -96,6 +104,7 @@ namespace Player
         private void UnZoom()
         {
             anim.SetBool("Zoom", false);
+            crosshair.enabled = false;
             StartCoroutine(LerpView(0.3f, defaultView));
         }
 
